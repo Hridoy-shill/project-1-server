@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000
 
 // middleware
 app.use(cors())
-app.use(express())
+app.use(express.json())
 
 // mongo-DB
 
@@ -31,13 +31,30 @@ async function run() {
         const carsCollection = client.db("car-world").collection("all-cars");
 
         // read all cars's data by api
-        app.get('/allCars', async(req, res)=>{
+        app.get('/allCars', async (req, res) => {
             const cursor = carsCollection.find();
             const result = await cursor.toArray();
             res.send(result)
         })
 
-        
+        // all toy databaseCollection
+        const allToyCollection = client.db("allToyDB").collection("allToyCollection");
+
+        // insert add toy data
+        app.post('/addToy', async (req, res) => {
+            const toy = req.body;
+            console.log(toy);
+            const result = await allToyCollection.insertOne(toy);
+            res.send(result)
+        })
+
+        // get all toy api
+        app.get('/allToy', async (req, res) => {
+            const cursor = allToyCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
 
 
         // this is for testing need to remove when work done
