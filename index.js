@@ -38,9 +38,9 @@ async function run() {
         })
 
         // get single car data form allCarCollection
-        app.get('/allCars/:id', async(req, res)=>{
+        app.get('/allCars/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await carsCollection.findOne(query)
             res.send(result);
         })
@@ -64,26 +64,43 @@ async function run() {
         })
 
         // get specific toy by id...
-        app.get('/allToy/:id', async(req, res)=>{
+        app.get('/allToy/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await allToyCollection.findOne(query)
-            res.send(result) 
+            res.send(result)
         })
 
         // get specific user allData
-        app.get('/myToys/:email', async(req, res)=>{
+        app.get('/myToys/:email', async (req, res) => {
             console.log(req.params.email);
-            const result = await allToyCollection.find({seller: req.params.email}).toArray()
+            const result = await allToyCollection.find({ seller: req.params.email }).toArray()
             res.send(result)
         })
 
         // get specific toy for update data
-        app.get('/ToyDetails/:id', async(req, res)=>{
+        app.get('/ToyDetails/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await allToyCollection.findOne(query)
-            res.send(result) 
+            res.send(result)
+        })
+
+        // Update specific data
+        app.put('/updateToy/:id', async (req, res) => {
+            const id = req.params.id;
+            const body = req.body;
+            const filter = { _id: new ObjectId(id) }
+
+            const updateData = {
+                $set: {
+                    Price: body.price,
+                    quantity: body.quantity,
+                    description: body.description
+                }
+            }
+            const result = await allToyCollection.updateOne(filter, updateData);
+            res.send(result)
         })
 
 
