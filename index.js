@@ -71,6 +71,21 @@ async function run() {
             res.send(result) 
         })
 
+        // get specific user allData
+        app.get('/myToys/:email', async(req, res)=>{
+            console.log(req.params.email);
+            const result = await allToyCollection.find({seller: req.params.email}).toArray()
+            res.send(result)
+        })
+
+        // get specific toy for update data
+        app.get('/ToyDetails/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await allToyCollection.findOne(query)
+            res.send(result) 
+        })
+
 
 
         // this is for testing need to remove when work done
