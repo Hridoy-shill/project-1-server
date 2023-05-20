@@ -10,7 +10,7 @@ app.use(express.json())
 
 // mongo-DB
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_ID}:${process.env.DB_PASS}@cluster0.fawgdio.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -37,6 +37,14 @@ async function run() {
             res.send(result)
         })
 
+        // 
+        app.get('/allCars/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await carsCollection.findOne(query)
+            res.send(result);
+        })
+
         // all toy databaseCollection
         const allToyCollection = client.db("allToyDB").collection("allToyCollection");
 
@@ -53,6 +61,14 @@ async function run() {
             const cursor = allToyCollection.find();
             const result = await cursor.toArray();
             res.send(result);
+        })
+
+        // get specific toy by id...
+        app.get('/allToy/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await allToyCollection.findOne(query)
+            res.send(result) 
         })
 
 
