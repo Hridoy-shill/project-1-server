@@ -25,7 +25,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        
+
 
 
         const carsCollection = client.db("car-world").collection("all-cars");
@@ -47,6 +47,22 @@ async function run() {
 
         // all toy databaseCollection
         const allToyCollection = client.db("allToyDB").collection("allToyCollection");
+
+        // indexing for search functionality
+        const indexKeys = { ToyName: 1 };
+        const indexOptions = { name: "toyName" }
+
+        const result = await allToyCollection.createIndex(indexKeys, indexOptions)
+
+        app.get('/searchToy/:text', async (req, res) => {
+            const searchText = req.params.text
+            const result = await allToyCollection.find({
+                $or: [
+                    { ToyName: { $regex: searchText, $options: "i" } },
+                ]
+            }).toArray()
+            res.send(result)
+        })
 
         // insert add toy data
         app.post('/addToy', async (req, res) => {
@@ -104,9 +120,9 @@ async function run() {
         })
 
         // 
-        app.delete('/deleteToy/:id', async(req, res)=>{
+        app.delete('/deleteToy/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await allToyCollection.deleteOne(query)
             res.send(result)
         })
