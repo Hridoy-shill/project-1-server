@@ -1,9 +1,13 @@
+## Technology
+- express JS
+- Node JS
+- MongoDB
 
-# JOB Bazar.com  
-A Job hunting single page website with react router dom.
-## Live site
-1. live site https://starlit-gumdrop-d85763.netlify.app
-## Used tools
-1. natlifiy
-2. react toastify
-3. Hero icons...etc.
+## About Webpage
+
+- It a Toy car based website backend server.
+- There have all backend routes in this website
+- In this serversite admin's can add data by client side.
+- also admin can get the toy's with the api.
+- In this serversite admin can update and delete his/her added data's.
+
