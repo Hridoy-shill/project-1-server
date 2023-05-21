@@ -25,7 +25,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        
 
 
         const carsCollection = client.db("car-world").collection("all-cars");
@@ -100,6 +100,14 @@ async function run() {
                 }
             }
             const result = await allToyCollection.updateOne(filter, updateData);
+            res.send(result)
+        })
+
+        // 
+        app.delete('/deleteToy/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await allToyCollection.deleteOne(query)
             res.send(result)
         })
 
