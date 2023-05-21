@@ -74,7 +74,7 @@ async function run() {
 
         // get all toy api
         app.get('/allToy', async (req, res) => {
-            const cursor = allToyCollection.find();
+            const cursor = allToyCollection.find({});
             const result = await cursor.toArray();
             res.send(result);
         })
